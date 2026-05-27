@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template
+from flask import request, render_template, redirect, url_for, Blueprint
 
-bp_core = Blueprint(
-    'bp_core',
-    __name__,
-    template_folder='templates'
-)
+from blueprintapp.app import db
 
-@bp_core.route('/')
-def inicio():
-    return render_template('index.html')
+bp_core = Blueprint('bp_core',__name__,template_folder='templates')
+
+@bp_core.route("/")
+def index():
+    return render_template('core/index.html')

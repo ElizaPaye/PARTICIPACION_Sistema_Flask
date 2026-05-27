@@ -1,72 +1,33 @@
-from flask import Blueprint
-from flask import render_template
-from flask import request
-from flask import redirect
-from flask import url_for
+# Librerias a usar en el modulo
+from flask import request,render_template,redirect,url_for,Blueprint
 
-from blueprintapp import db
+# Referencia a la base de datos
+from blueprintapp.app import db
+# Modelos con los que interactura el modulo
 from blueprintapp.miembros.models import Miembro
 
-bp_miembro = Blueprint(
-    'bp_miembro',
-    __name__,
-    template_folder='templates'
-)
+bp_miembro = Blueprint('bp_miembro',__name__,template_folder='templates')
 
-@bp_miembro.route('/')
+@bp_miembro.route("/")
 def index():
-
     miembros = Miembro.query.all()
+    return render_template('miembro/index.html',miembros=miembros)
 
-    return render_template(
-        'miembros/index.html',
-        miembros=miembros
-    )
-
-
-@bp_miembro.route('/agregar', methods=['POST'])
-def agregar():
-
-    nombre = request.form['nombre']
-    correo = request.form['correo']
-
-    nuevo = Miembro(
-        nombre=nombre,
-        correo=correo
-    )
-
-    db.session.add(nuevo)
-    db.session.commit()
-
-    return redirect(url_for('bp_miembro.index'))
-
-
-@bp_miembro.route('/eliminar/<int:id>')
-def eliminar(id):
-
-    miembro = Miembro.query.get(id)
-
-    db.session.delete(miembro)
-    db.session.commit()
-
-    return redirect(url_for('bp_miembro.index'))
-
-
-@bp_miembro.route('/editar/<int:id>', methods=['GET', 'POST'])
-def editar(id):
-
-    miembro = Miembro.query.get(id)
-
-    if request.method == 'POST':
-
-        miembro.nombre = request.form['nombre']
-        miembro.correo = request.form['correo']
-
+@bp_miembro.route("/create",methods=['GET','POST'])
+def create():
+    if request.method == 'GET':
+        return render_template('miembro/create.html')
+    elif request.method == 'POST':
+        nombre = request.form.get('nombre')
+        email = request.form.get('email')
+        # Crear un objeto miembro
+        miembro = Miembro(nombre=nombre,email=email)
+        # Insertar en la bd a traves del ORM
+        db.session.add(miembro)
         db.session.commit()
-
+        # Redireccion al listado de miembros
         return redirect(url_for('bp_miembro.index'))
+        
+        
 
-    return render_template(
-        'miembros/editar.html',
-        miembro=miembro
-    )
+

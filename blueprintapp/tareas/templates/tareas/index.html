@@ -1,63 +1,50 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-<h1 class="mb-4">Listado de Tareas</h1>
+<div class="container mt-4">
 
-<a href="{{ url_for('bp_tarea.create') }}"
-   class="btn btn-success mb-3">
-   Nueva Tarea
-</a>
+    <h1>Lista de Tareas</h1>
 
-<table class="table table-bordered bg-white">
+    <a href="{{ url_for('bp_tarea.create') }}"
+       class="btn btn-success mb-3">
+        Nueva tarea
+    </a>
 
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Descripción</th>
-            <th>Completado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+    <table class="table table-bordered">
 
-    <tbody>
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th>Completado</th>
+            </tr>
+        </thead>
 
-        {% for item in tareas %}
-        <tr>
+        <tbody>
 
-            <td>{{ item.id }}</td>
+            {% for tarea in tareas %}
+            <tr>
 
-            <td>{{ item.descripcion }}</td>
+                <td>{{ tarea.id }}</td>
 
-            <td>
+                <td>{{ tarea.descripcion }}</td>
 
-                {% if item.completado %}
-                    Sí
-                {% else %}
-                    No
-                {% endif %}
+                <td>
+                    {% if tarea.completado %}
+                        Sí
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
 
-            </td>
+            </tr>
+            {% endfor %}
 
-            <td>
+        </tbody>
 
-                <a href="{{ url_for('bp_tarea.edit', id=item.id) }}"
-                   class="btn btn-warning btn-sm">
-                   Editar
-                </a>
+    </table>
 
-                <a href="{{ url_for('bp_tarea.delete', id=item.id) }}"
-                   class="btn btn-danger btn-sm">
-                   Eliminar
-                </a>
-
-            </td>
-
-        </tr>
-        {% endfor %}
-
-    </tbody>
-
-</table>
+</div>
 
 {% endblock %}

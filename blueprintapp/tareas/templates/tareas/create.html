@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<div class="card shadow p-4">
+<div class="container mt-4">
 
-    <h1 class="mb-4">Crear Tarea</h1>
+    <h1>Nueva Tarea</h1>
 
-    <form action="{{ url_for('bp_tarea.create') }}" method="POST">
+    <form method="POST">
 
         <div class="mb-3">
 
@@ -14,18 +14,22 @@
                 Descripción
             </label>
 
-            <input type="text"
-                   name="descripcion"
-                   class="form-control"
-                   required>
+            <input
+                type="text"
+                name="descripcion"
+                class="form-control"
+                required
+            >
 
         </div>
 
-        <div class="mb-3 form-check">
+        <div class="form-check mb-3">
 
-            <input type="checkbox"
-                   name="completado"
-                   class="form-check-input">
+            <input
+                type="checkbox"
+                name="completado"
+                class="form-check-input"
+            >
 
             <label class="form-check-label">
                 Completado
@@ -33,9 +37,19 @@
 
         </div>
 
-        <button class="btn btn-success">
+        <button type="submit"
+                class="btn btn-primary">
+
             Guardar
+
         </button>
+
+        <a href="{{ url_for('bp_tarea.index') }}"
+           class="btn btn-secondary">
+
+            Volver
+
+        </a>
 
     </form>
 

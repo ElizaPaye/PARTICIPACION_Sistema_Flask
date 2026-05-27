@@ -6,32 +6,27 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 def create_app():
-
-    app = Flask(__name__)
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.db'
+    app = Flask(__name__, template_folder='templates')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bd_equipo.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+    
     db.init_app(app)
-
-    migrate.init_app(app, db)
-
-    # IMPORTAR BLUEPRINTS
-    from blueprintapp.core.routes import bp_core
+    migrate.init_app(app,db)
+    
+    # 1. Importación del blueprint (Para cada modulo)
     from blueprintapp.miembros.routes import bp_miembro
+    from blueprintapp.core.routes import bp_core
     from blueprintapp.tareas.routes import bp_tarea
+    
+    # 2. Registrar el blueprint (Para cada modulo)
+    app.register_blueprint(bp_miembro,url_prefix="/miembros")
+    app.register_blueprint(bp_core,url_prefix="/")
+    app.register_blueprint(bp_tarea,url_prefix="/tareas")
+    
 
-    # REGISTRAR BLUEPRINTS
-    app.register_blueprint(bp_core)
-
-    app.register_blueprint(
-        bp_miembro,
-        url_prefix='/miembros'
-    )
-
-    app.register_blueprint(
-        bp_tarea,
-        url_prefix='/tareas'
-    )
-
+    
+    #Crear tablas automaticamente
+    with app.app_context():
+        db.create_all()
+    
     return app
