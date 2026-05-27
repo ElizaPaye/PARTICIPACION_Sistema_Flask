@@ -18,6 +18,7 @@
                 <th>ID</th>
                 <th>Descripción</th>
                 <th>Completado</th>
+                <th>Complementos</th>
             </tr>
         </thead>
 
@@ -36,6 +37,19 @@
                     {% else %}
                         No
                     {% endif %}
+                </td>
+
+                <td>
+                    <a href="{{ url_for('bp_tarea.edit', id=tarea.id) }}"
+                    class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
+
+                    <a href="{{ url_for('bp_tarea.delete', id=tarea.id) }}"
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('¿Eliminar tarea?')">
+                        Eliminar
+                    </a>
                 </td>
 
             </tr>

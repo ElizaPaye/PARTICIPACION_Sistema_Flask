@@ -23,10 +23,7 @@ def create_app():
     app.register_blueprint(bp_core,url_prefix="/")
     app.register_blueprint(bp_tarea,url_prefix="/tareas")
     
-
-    
     #Crear tablas automaticamente
     with app.app_context():
         db.create_all()
-    
     return app

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Tarea{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+
+            <div class="card-header bg-warning text-white">
+                <h3>Editar Tarea</h3>
+            </div>
+
+            <div class="card-body">
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label>Descripción</label>
+                        <input type="text"
+                               name="descripcion"
+                               value="{{ tarea.descripcion }}"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="completado"
+                               {% if tarea.completado %}checked{% endif %}>
+                        <label class="form-check-label">
+                            Completado
+                        </label>
+                    </div>
+
+                    <button class="btn btn-primary">Actualizar</button>
+
+                    <a href="{{ url_for('bp_tarea.index') }}"
+                       class="btn btn-secondary">
+                        Volver
+                    </a>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

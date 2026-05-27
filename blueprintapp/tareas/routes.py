@@ -27,6 +27,28 @@ def create():
         db.session.commit()
         # Redireccion al listado de miembros
         return redirect(url_for('bp_tarea.index'))
+
+@bp_tarea.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id):
+    tarea = Tarea.query.get_or_404(id)
+
+    if request.method == "POST":
+        tarea.descripcion = request.form.get("descripcion")
+        tarea.completado = True if 'completado' in request.form else False
+
+        db.session.commit()
+        return redirect(url_for("bp_tarea.index"))
+
+    return render_template("tareas/edit.html", tarea=tarea)
+
+@bp_tarea.route("/delete/<int:id>")
+def delete(id):
+    tarea = Tarea.query.get_or_404(id)
+
+    db.session.delete(tarea)
+    db.session.commit()
+
+    return redirect(url_for("bp_tarea.index"))
         
         
 

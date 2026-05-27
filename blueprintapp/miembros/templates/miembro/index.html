@@ -32,6 +32,7 @@ Miembros
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th>Complementos</th>
                    
                 </tr>
 
@@ -48,6 +49,19 @@ Miembros
                     <td>{{ miembro.nombre }}</td>
 
                     <td>{{ miembro.email }}</td>
+
+                    <td>
+                        <a href="{{ url_for('bp_miembro.edit', id=miembro.id) }}"
+                        class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <a href="{{ url_for('bp_miembro.delete', id=miembro.id) }}"
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Seguro que deseas eliminar?')">
+                            Eliminar
+                        </a>
+                    </td>
                     
 
                 </tr>
